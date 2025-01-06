@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark {{ request()->is('employee') ? 'active':'' }}"
+                <a class="nav-link text-dark {{ request()->is('employee*') ? 'active':'' }}"
                     href="{{ url('employee') }}">
                     <i class="fa-solid fa-user"></i>
                     <span class="nav-link-text ms-2 mt-1">ข้อมูลบุคลากร</span>

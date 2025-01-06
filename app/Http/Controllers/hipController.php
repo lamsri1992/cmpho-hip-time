@@ -9,16 +9,98 @@ class hipController extends Controller
 {
     public function dashboard()
     {
-        return view('page.dashboard');
+        $emp = DB::table('student')->count();
+        return view('page.dashboard',
+            [
+                'emp' => $emp
+            ]
+        );
     }
 
     public function employee()
     {
         $data = DB::table('student')
-            ->select('id','studentname','enrollnumber','studentdate','levelname')
+            ->select('student.id','studentname','enrollnumber','studentdate','levelname','shiftname','starttime','endtime')
             ->leftjoin('level','level.levelcode','student.levelcode')
+            ->leftjoin('shift','shift.shiftcode','student.shiftcode')
             ->get();
-        return view('page.employee',['data' => $data]);
+        $dept = DB::table('level')->get();
+        $shift = DB::table('shift')->get();
+        return view('page.employee',['data' => $data,'dept' => $dept,'shift' => $shift]);
+    }
+
+    public function show_employee($id)
+    {
+        $data = DB::table('student')
+            ->select('student.id','student.levelcode','student.shiftcode','studentname','enrollnumber','studentdate','levelname',
+            'shiftname','starttime','endtime','student.active')
+            ->leftjoin('level','level.levelcode','student.levelcode')
+            ->leftjoin('shift','shift.shiftcode','student.shiftcode')
+            ->where('student.id',$id)
+            ->first();
+        $dept = DB::table('level')->get();
+        $shift = DB::table('shift')->get();
+        return view('page.employee_show',['data' => $data,'dept' => $dept,'shift' => $shift]);
+    }
+
+    public function store_employee(Request $request)
+    {
+        $validatedData = $request->validate(
+            [
+                'enrollnumber' => 'required',
+                'studentname' => 'required',
+                'levelcode' => 'required',
+                'shiftcode' => 'required',
+            ],
+            [
+                'enrollnumber.required' => 'ระบุเลขที่ลายนิ้วมือ',
+                'studentname.required' => 'ระบุชื่อ - สกุล',
+                'levelcode.required' => 'ระบุกลุ่มงาน / ฝ่าย',
+                'shiftcode.required' => 'ระบุเวลาปฏิบัติงาน',
+            ],
+        );
+
+        DB::table('student')->insert(
+            [
+                'enrollnumber' => $request->enrollnumber,
+                'studentname' => $request->studentname,
+                'levelcode' => $request->levelcode,
+                'shiftcode' => $request->shiftcode,
+                'active' => '1',
+            ]
+        );
+        return back()->with('success', 'เพิ่มข้อมูล '.$request->studentname.' สำเร็จ');
+    }
+
+    public function update_employee(Request $request,$id)
+    {
+        $validatedData = $request->validate(
+            [
+                'enrollnumber' => 'required',
+                'studentname' => 'required',
+                'levelcode' => 'required',
+                'shiftcode' => 'required',
+                'active' => 'required',
+            ],
+            [
+                'enrollnumber.required' => 'ระบุเลขที่ลายนิ้วมือ',
+                'studentname.required' => 'ระบุชื่อ - สกุล',
+                'levelcode.required' => 'ระบุกลุ่มงาน / ฝ่าย',
+                'shiftcode.required' => 'ระบุเวลาปฏิบัติงาน',
+                'active.required' => 'ระบุสถานะ',
+            ],
+        );
+
+        DB::table('student')->where('id',$id)->update(
+            [
+                'enrollnumber' => $request->enrollnumber,
+                'studentname' => $request->studentname,
+                'levelcode' => $request->levelcode,
+                'shiftcode' => $request->shiftcode,
+                'active' => $request->active,
+            ]
+        );
+        return back()->with('success', 'แก้ไขข้อมูล '.$request->studentname.' สำเร็จ');
     }
 
     public function report()

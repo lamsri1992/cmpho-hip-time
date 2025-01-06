@@ -14,12 +14,12 @@
                 <div class="card-header p-2 ps-3">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <p class="text-sm mb-0 text-capitalize">ไปราชการ / ลา</p>
-                            <h4 class="mb-0">N/A คน</h4>
+                            <p class="text-sm mb-0 text-capitalize">จำนวนบุคลากร</p>
+                            <h4 class="mb-0">{{ number_format($emp) }} คน</h4>
                         </div>
                         <div
                             class="icon icon-md icon-shape bg-gradient-info text-center border-radius-lg">
-                            <i class="fa-solid fa-van-shuttle"></i>
+                            <i class="fa-solid fa-user-group"></i>
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,9 @@
     <link href="{{ asset('template/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('template/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ asset('template/assets/css/material-dashboard.css?v=3.2.0') }}" rel="stylesheet" />
+    <link id="pagestyle"
+        href="{{ asset('template/assets/css/material-dashboard.css?v=3.2.0') }}"
+        rel="stylesheet" />
     <!-- Font Google -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
     <!-- Select 2 -->
@@ -37,7 +39,8 @@
     <!-- DataTable -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
     <!-- FlatPikr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -56,7 +59,11 @@
             "wdth"100;
     }
 
-    .select2-selection__rendered {
+    .swal2-title {
+        font-family: "Noto Sans Thai", sans-serif;
+    }
+
+    /* .select2-selection__rendered {
         line-height: 29px !important;
     }
 
@@ -66,7 +73,7 @@
 
     .select2-selection__arrow {
         height: 37px !important;
-    }
+    } */
 
 </style>
 
@@ -130,6 +137,17 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/th.js"></script>
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                placeholder: 'กรุณาเลือก',
+                width: '100%',
+            });
+        });
+
+    </script>
     <script>
         new DataTable('#basicTable', {
             lengthMenu: [
@@ -150,6 +168,7 @@
                 sInfoEmpty: '<small>ไม่มีข้อมูล</small>'
             },
         });
+
     </script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
@@ -159,8 +178,58 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
+
     </script>
     <script src="{{ asset('template/assets/js/material-dashboard.min.js?v=3.2.0') }}"></script>
+    @if($message = Session::get('success'))
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ $message }}",
+                // width: "30%"
+            });
+
+        </script>
+    @endif
+    @if($message = Session::get('error'))
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "{{ $message }}",
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+        </script>
+    @endif
+
+    @if($errors->any())
+        <script>
+            Swal.fire({
+                title: 'พบข้อผิดพลาด',
+                icon: 'warning',
+                html: '<div class="text-start">' +
+                    '<ul>' +
+                    '@foreach ($errors->all() as $error)' +
+                    '<li>{{ $error }}</li>' +
+                    '@endforeach' +
+                    '</ul>' +
+                    '</div>'
+            })
+
+        </script>
+    @endif
     @section('script')
     @show
 </body>
