@@ -14,8 +14,45 @@
     <hr class="horizontal dark mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-xs text-dark">
+                    สวัสดี , {{ Auth::user()->name }}
+                </h6>
+            </li>
             <li class="nav-item">
-                <a class="nav-link text-dark {{ request()->is('dashboard') ? 'active':'' }}"
+                <a class="nav-link text-dark"
+                    href="#">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <span class="nav-link-text ms-2 mt-1">ข้อมูลส่วนตัว</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button class="nav-link text-dark" type="button"
+                    onclick="Swal.fire({
+                        title: 'ยืนยันการสิ้นสุดการใช้งาน',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ออกจากระบบ',
+                        cancelButtonText: 'ยกเลิก'
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit()
+                        }
+                        });">
+                        <i class="fa-solid fa-power-off"></i>
+                        <span class="nav-link-text ms-2 mt-1">ลงชื่อออกจากระบบ</span>
+                    </button>
+                </form>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">
+                    เมนูระบบ
+                </h6>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark {{ request()->is('/') || request()->is('dashboard') ? 'active':'' }}"
                     href="{{ route('dashboard') }}">
                     <i class="fa-solid fa-chart-line"></i>
                     <span class="nav-link-text ms-2 mt-1">Dashboard</span>
