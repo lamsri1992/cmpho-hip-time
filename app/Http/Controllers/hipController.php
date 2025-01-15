@@ -33,7 +33,7 @@ class hipController extends Controller
     {
         $data = DB::table('student')
             ->select('student.id','student.levelcode','student.shiftcode','studentname','enrollnumber','studentdate','levelname',
-            'shiftname','starttime','endtime','student.active')
+            'shiftname','starttime','endtime','student.active','idcard')
             ->leftjoin('level','level.levelcode','student.levelcode')
             ->leftjoin('shift','shift.shiftcode','student.shiftcode')
             ->where('student.id',$id)
@@ -51,12 +51,14 @@ class hipController extends Controller
                 'studentname' => 'required',
                 'levelcode' => 'required',
                 'shiftcode' => 'required',
+                'idcard' => 'required',
             ],
             [
                 'enrollnumber.required' => 'ระบุเลขที่ลายนิ้วมือ',
                 'studentname.required' => 'ระบุชื่อ - สกุล',
                 'levelcode.required' => 'ระบุกลุ่มงาน / ฝ่าย',
                 'shiftcode.required' => 'ระบุเวลาปฏิบัติงาน',
+                'idcard.required' => 'ระบุเลขบัตรประชาชน',
             ],
         );
 
@@ -66,6 +68,7 @@ class hipController extends Controller
                 'studentname' => $request->studentname,
                 'levelcode' => $request->levelcode,
                 'shiftcode' => $request->shiftcode,
+                'idcard' => $request->idcard,
                 'active' => '1',
             ]
         );
@@ -81,6 +84,7 @@ class hipController extends Controller
                 'levelcode' => 'required',
                 'shiftcode' => 'required',
                 'active' => 'required',
+                'idcard' => 'required',
             ],
             [
                 'enrollnumber.required' => 'ระบุเลขที่ลายนิ้วมือ',
@@ -88,6 +92,7 @@ class hipController extends Controller
                 'levelcode.required' => 'ระบุกลุ่มงาน / ฝ่าย',
                 'shiftcode.required' => 'ระบุเวลาปฏิบัติงาน',
                 'active.required' => 'ระบุสถานะ',
+                'idcard.required' => 'ระบุเลขบัตรประชาชน',
             ],
         );
 
@@ -97,6 +102,7 @@ class hipController extends Controller
                 'studentname' => $request->studentname,
                 'levelcode' => $request->levelcode,
                 'shiftcode' => $request->shiftcode,
+                'idcard' => $request->idcard,
                 'active' => $request->active,
             ]
         );

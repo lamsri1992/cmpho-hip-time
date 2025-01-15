@@ -30,13 +30,19 @@
                 <form action="{{ route('employee.update',$data->id) }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="input-group input-group-static mb-4">
                                 <label>เลขที่ลายนิ้วมือ</label>
                                 <input type="text" name="enrollnumber" class="form-control" value="{{ $data->enrollnumber }}">
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-static mb-4">
+                                <label>เลขบัตรประชาชน</label>
+                                <input type="text" name="idcard" class="form-control" value="{{ $data->idcard }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="input-group input-group-static mb-4">
                                 <label>ชื่อ - สกุล</label>
                                 <input type="text" name="studentname" class="form-control" value="{{ $data->studentname }}">

@@ -58,10 +58,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">วันที่</th>
+                                    <th class="text-center">ฝ่าย/กลุ่มงาน</th>
                                     <th class="text-center">ชื่อ - สกุล</th>
                                     <th class="text-center">เลือกเวลาปฏิบัติงาน</th>
                                     <th class="text-center">เวลาเข้างานจริง</th>
                                     <th class="text-center">เวลาเลิกงานจริง</th>
+                                    <th class="text-center">สถานะ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,6 +76,9 @@
                                             {{ $rs->studentname }}
                                         </td>
                                         <td class="text-center">
+                                            {{ $rs->levelname }}
+                                        </td>
+                                        <td class="text-center">
                                             {{ $rs->time_slot }}
                                         </td>
                                         <td class="text-center">
@@ -82,6 +87,7 @@
                                         <td class="text-center">
                                             {{ $rs->time_out }}
                                         </td>
+                                        <td class="text-center"></td>
                                     </tr>
                                 @endforeach
                             </tbody>
